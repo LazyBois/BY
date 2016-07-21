@@ -1,0 +1,42 @@
+  package util;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class ConditionValue {
+	public  ArrayList<QTInfo> trueChain = new ArrayList<QTInfo>();
+	public  ArrayList<QTInfo> falseChain = new ArrayList<QTInfo>();
+	public void mergeTrue(QTInfo qtTrue){
+		trueChain.add(qtTrue);
+		   
+	}
+	public void mergeFalse(QTInfo qtFalse){
+		falseChain.add(qtFalse);
+	}
+	public void backpatchTrueChain(int result){
+		Iterator<QTInfo> itr = trueChain.iterator();
+		while(itr.hasNext()){
+			itr.next().setResult(result);
+		}
+		trueChain.clear();
+	}
+	public void backpatchFalseChain(int result){
+		Iterator<QTInfo> itr = falseChain.iterator();
+		while(itr.hasNext()){
+			itr.next().setResult(result);
+		}
+		falseChain.clear();
+	}
+	
+	public void addAll(ConditionValue cv)
+	{
+		trueChain.addAll(cv.trueChain);
+		falseChain.addAll(cv.falseChain);
+	}
+	public void change()
+	{
+		ArrayList<QTInfo> temp = trueChain;
+		trueChain = falseChain;
+		falseChain = temp;
+	}
+}
